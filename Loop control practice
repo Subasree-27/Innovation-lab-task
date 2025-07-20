@@ -1,0 +1,114 @@
+console.log("--- while loop (Print numbers 1 to 10) ---");
+let i = 1;
+while (i <= 10) {
+    console.log(i);
+    i++; // Increment the counter
+}
+console.log("\n--- while loop (Condition initially false) ---");
+let j = 11;
+while (j <= 10) {
+    console.log(j);
+    j++;
+}
+console.log("Loop did not run as condition was initially false.");
+/*
+console.log("\n--- while loop (Infinite loop - DO NOT RUN INDEFINITELY!) ---");
+let k = 1;
+while (k > 0) {
+    console.log("This will print forever unless stopped.");
+    if (k === 3) { 
+        break;
+    }
+    k++;
+}
+*/
+console.log("\n");
+console.log("--- do-while loop (Prompt user for correct input) ---");
+/*
+let userInput;
+let correctPassword = "password123";
+
+do {
+    userInput = prompt("Please enter the password:"); 
+    if (userInput !== correctPassword) {
+        alert("Incorrect password. Please try again."); 
+    }
+} while (userInput !== correctPassword);
+
+alert("Correct password entered! Access granted.");
+console.log("Correct password entered in browser simulation.");
+*/
+console.log("--- Simulating do-while loop for Node.js/Console ---");
+let attempt = 0;
+let maxAttempts = 3;
+const correctCode = "secret";
+let enteredCode = "";
+
+do {
+    attempt++;
+    console.log(`Attempt ${attempt}: Enter code (simulated incorrect input)`);
+    if (attempt === 1) {
+        enteredCode = "wrong";
+    } else if (attempt === 2) {
+        enteredCode = "mistake";
+    } else {
+        enteredCode = correctCode; 
+    }
+
+    if (enteredCode !== correctCode) {
+        console.log("Incorrect code. Try again.");
+    }
+
+} while (enteredCode !== correctCode && attempt < maxAttempts);
+
+if (enteredCode === correctCode) {
+    console.log("Correct code entered! Access granted.");
+} else {
+    console.log("Max attempts reached. Access denied.");
+}
+console.log("\n"); 
+
+console.log("--- for loop (Sum of first N natural numbers) ---");
+let N = 5;
+let sum = 0;
+for (let i_for = 1; i_for <= N; i_for++) { 
+    sum += i_for; 
+    console.log(`Adding ${i_for}, current sum: ${sum}`);
+}
+console.log(`The sum of the first ${N} natural numbers is: ${sum}`);
+console.log("\n--- for loop (N is 0) ---");
+let N_zero = 0;
+let sum_zero = 0;
+for (let i_zero = 1; i_zero <= N_zero; i_zero++) {
+    sum_zero += i_zero;
+}
+console.log(`The sum of the first ${N_zero} natural numbers is: ${sum_zero}`);
+console.log("\n--- for loop (N is negative) ---");
+let N_negative = -3;
+let sum_negative = 0;
+for (let i_negative = 1; i_negative <= N_negative; i_negative++) {
+    sum_negative += i_negative;
+}
+console.log(`The sum of the first ${N_negative} natural numbers is: ${sum_negative}`); // Sum will be 0
+console.log("\n"); 
+console.log("--- Nested for loops (Multiplication Table up to 5x5) ---");
+
+const tableSize = 5;
+
+for (let outer_i = 1; outer_i <= tableSize; outer_i++) {
+    let row = "";
+    for (let inner_j = 1; inner_j <= tableSize; inner_j++) {
+        row += `${outer_i * inner_j}\t`; 
+    }
+    console.log(row); 
+}
+
+console.log("\n--- Nested for loops (Simple Pattern) ---");
+const patternSize = 4;
+for (let pattern_i = 1; pattern_i <= patternSize; pattern_i++) {
+    let line = "";
+    for (let pattern_j = 1; pattern_j <= pattern_i; pattern_j++) { 
+        line += "* ";
+    }
+    console.log(line);
+}
