@@ -1,0 +1,69 @@
+console.log("--- Break Statement Usage ---");
+console.log("Finding the first 'prime' number (simulated check) between 10 and 20:");
+for (let num = 10; num <= 20; num++) {
+    console.log(`Checking number: ${num}`);
+    // Simulate a prime check: Let's say 13 is our "first prime" for this example
+    if (num === 13) {
+        console.log(`Found a 'prime' number: ${num}. Exiting loop.`);
+        break; 
+    }
+}
+console.log("\nSearching for 'banana' in a fruit list:");
+const fruits = ["apple", "orange", "banana", "grape", "kiwi"];
+const searchTerm = "banana";
+let foundFruit = false;
+
+for (let i = 0; i < fruits.length; i++) {
+    console.log(`Currently checking: ${fruits[i]}`);
+    if (fruits[i] === searchTerm) {
+        console.log(`Found '${searchTerm}' at index ${i}.`);
+        foundFruit = true;
+        break; 
+    }
+}
+
+if (!foundFruit) {
+    console.log(`'${searchTerm}' not found in the list.`);
+}
+console.log("\n--- Break in a while loop (stop after 5 iterations) ---");
+let counter = 1;
+while (true) {
+    console.log(`Iteration: ${counter}`);
+    if (counter === 5) {
+        console.log("Counter reached 5. Breaking loop.");
+        break; 
+    }
+    counter++;
+}
+console.log("Loop finished due to break.");
+
+console.log("\n--- Continue Statement Usage ---");
+console.log("Printing only odd numbers between 1 and 10:");
+for (let num = 1; num <= 10; num++) {
+    if (num % 2 === 0) { 
+        console.log(`Skipping even number: ${num}`);
+        continue; 
+    }
+    console.log(`Odd number: ${num}`);
+}
+console.log("\nProcessing non-null/non-undefined values in a mixed array:");
+const data = [10, null, 20, undefined, 30, 40, null, 50];
+
+for (let i = 0; i < data.length; i++) {
+    if (data[i] === null || data[i] === undefined) {
+        console.log(`Skipping invalid value at index ${i}: ${data[i]}`);
+        continue; 
+    }
+    console.log(`Processing valid value: ${data[i]} (doubled: ${data[i] * 2})`);
+}
+
+console.log("\n--- Continue in a while loop (print even numbers up to 10) ---");
+let currentNum = 0;
+while (currentNum < 10) {
+    currentNum++;
+    if (currentNum % 2 !== 0) { 
+        console.log(`Skipping odd number: ${currentNum}`);
+        continue; 
+    }
+    console.log(`Even number found: ${currentNum}`);
+}
