@@ -1,0 +1,116 @@
+console.log("--- Simple if statement (JavaScript) ---");
+let age = 20;
+if (age >= 18) {
+    console.log("You are old enough to vote.");
+}
+let ageBoundary = 18;
+if (ageBoundary >= 18) {
+    console.log("At 18, you are eligible to vote.");
+}
+let ageYoung = 16;
+if (ageYoung >= 18) {
+    console.log("You are old enough to vote. (This won't print)");
+}
+console.log("\n");
+console.log("--- if-else block (JavaScript) ---");
+let temperature = 25;
+if (temperature > 30) {
+    console.log("It's a hot day!");
+} else {
+    console.log("It's not too hot today.");
+}
+let temperatureBoundary = 30;
+if (temperatureBoundary > 30) {
+    console.log("It's a hot day! (This won't print)");
+} else {
+    console.log("It's 30 degrees or less.");
+}
+console.log("\n");
+console.log("--- Multiple conditions with else if (JavaScript) ---");
+let score = 85;
+if (score >= 90) {
+    console.log("Grade: A");
+} else if (score >= 80) {
+    console.log("Grade: B");
+} else if (score >= 70) {
+    console.log("Grade: C");
+} else {
+    console.log("Grade: D or F");
+}
+let scoreBBoundary = 80;
+if (scoreBBoundary >= 90) {
+    console.log("Grade: A");
+} else if (scoreBBoundary >= 80) {
+    console.log("Grade: B (Exact boundary)");
+} else if (scoreBBoundary >= 70) {
+    console.log("Grade: C");
+} else {
+    console.log("Grade: D or F");
+}
+let scoreFail = 55;
+if (scoreFail >= 90) {
+    console.log("Grade: A");
+} else if (scoreFail >= 80) {
+    console.log("Grade: B");
+} else if (scoreFail >= 70) {
+    console.log("Grade: C");
+} else {
+    console.log("Grade: D or F (Failing score)");
+}
+console.log("\n");
+console.log("--- Switch Statement for Menu Selection (JavaScript) ---");
+function getDayName(dayNumber) {
+    let dayName;
+    switch (dayNumber) {
+        case 1:
+            dayName = "Monday";
+            break;
+        case 2:
+            dayName = "Tuesday";
+            break;
+        case 3:
+            dayName = "Wednesday";
+            break;
+        case 4:
+            dayName = "Thursday";
+            break;
+        case 5:
+            dayName = "Friday";
+            break;
+        case 6:
+            dayName = "Saturday";
+            break;
+        case 7:
+            dayName = "Sunday";
+            break;
+        default:
+            dayName = "Invalid day number";
+    }
+    return dayName;
+}
+
+console.log(`Day 3 is: ${getDayName(3)}`);
+console.log(`Day 7 is: ${getDayName(7)}`);
+console.log(`Day 0 is: ${getDayName(0)}`); 
+console.log(`Day 8 is: ${getDayName(8)}`); 
+function getFruitColor(fruit) {
+    let color;
+    switch (fruit.toLowerCase()) { 
+        case "apple":
+            color = "Red or Green";
+            break;
+        case "banana":
+            color = "Yellow";
+            break;
+        case "blueberry":
+            color = "Blue";
+            break;
+        default:
+            color = "Color not known for this fruit.";
+    }
+    return color;
+}
+
+console.log(`\nColor of Apple: ${getFruitColor("Apple")}`);
+console.log(`Color of banana: ${getFruitColor("banana")}`);
+console.log(`Color of grape: ${getFruitColor("grape")}`); 
