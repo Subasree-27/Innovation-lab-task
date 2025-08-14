@@ -1,0 +1,9 @@
+input_tuple = tuple(input("Enter the tuple elements separated by commas").split(','))
+# Get list from the user
+input_list = list(input("Enter the list elements separated by commas").split(','))
+# Count occurrences of list items in the tuple
+count = 0
+for item in input_list:
+count += input_tuple.count(item)
+# Output the result
+print("Total occurrences:", count)
