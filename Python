@@ -1,0 +1,21 @@
+Coding :
+def fah_to_cel():
+ print("Fahrenheit to Celsius Conversion")
+ fahrenheit = float(input("Enter Fahrenheit value: "))
+ celsius = (fahrenheit - 32) * 5 / 9
+ print(f"Celsius value: {celsius:.2f}")
+def cel_to_fah():
+ print("Celsius to Fahrenheit Conversion")
+ celsius = float(input("Enter Celsius value: "))
+ fahrenheit = celsius * 9 / 5 + 32
+ print(f"Fahrenheit value: {fahrenheit:.2f}")
+print("Conversion Program")
+print("1. Fahrenheit to Celsius")
+print("2. Celsius to Fahrenheit")
+ch = input("Enter your choice: ")
+if ch == '1':
+ fah_to_cel()
+elif ch == '2':
+ cel_to_fah()
+else:
+ print("Enter Valid Number")
