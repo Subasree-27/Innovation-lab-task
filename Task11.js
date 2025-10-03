@@ -43,21 +43,12 @@
 
             async function fetchProducts() {
                 try {
-                    // Fetch the JSON file
-                    const response = await fetch('products.json');
-
-                    // Check if the response is successful
+                    const response = await fetch('products.json'); 
                     if (!response.ok) {
                         throw new Error('Failed to fetch products');
                     }
-
-                    // Parse the JSON data
-                    const products = await response.json();
-
-                    // Clear any previous error message
-                    errorMessageContainer.style.display = 'none';
-
-                    // Display products dynamically
+                    const products = await response.json();            
+                    errorMessageContainer.style.display = 'none';      
                     displayProducts(products);
 
                 } catch (error) {
@@ -69,10 +60,7 @@
             }
 
             function displayProducts(products) {
-                // Clear any existing products
                 productListContainer.innerHTML = '';
-
-                // Iterate over the products and create HTML elements for each one
                 products.forEach(product => {
                     const productDiv = document.createElement('div');
                     productDiv.classList.add('product');
@@ -85,18 +73,12 @@
 
                     const productDescription = document.createElement('p');
                     productDescription.textContent = product.description;
-
-                    // Append all elements to the product div
                     productDiv.appendChild(productName);
                     productDiv.appendChild(productPrice);
                     productDiv.appendChild(productDescription);
-
-                    // Append the product div to the product list container
                     productListContainer.appendChild(productDiv);
                 });
             }
-
-            // Fetch and display products when the page loads
             fetchProducts();
         });
     </script>
