@@ -1,97 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Weather App Simulator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    .log {
-      margin-bottom: 10px;
-    }
-    .success {
-      color: green;
-    }
-    .error {
-      color: red;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Live Crypto Price Ticker</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 500px;
+    margin: auto;
+  }
+  #prices {
+    margin-top: 20px;
+  }
+  .crypto {
+    margin-bottom: 10px;
+  }
+  #loading {
+    color: orange;
+    font-weight: bold;
+    display: none;
+  }
+  button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+</style>
 </head>
 <body>
 
-  <h1>Weather App Simulator</h1>
-  <div id="output"></div>
+<h1>Live Crypto Price Ticker</h1>
 
-  <script>
-    // Utility to log messages to the page
-    function logMessage(message, type = 'log') {
-      const div = document.createElement('div');
-      div.className = `log ${type}`;
-      div.textContent = message;
-      document.getElementById('output').appendChild(div);
-    }
+<div>
+  <button id="start-btn">Start Updates</button>
+  <button id="stop-btn" disabled>Stop Updates</button>
+</div>
 
-    // Simulated weather data fetcher with random delay and failure
-    function fetchWeather(city) {
-      return new Promise((resolve, reject) => {
-        const delay = Math.floor(Math.random() * 2000) + 1000; // 1-3 seconds
-        setTimeout(() => {
-          const success = Math.random() < 0.8; // 80% chance of success
-          if (success) {
-            const temperature = (Math.random() * 30 + 10).toFixed(1); // 10°C - 40°C
-            const conditions = ['Sunny', 'Cloudy', 'Rainy', 'Windy', 'Snowy'];
-            const condition = conditions[Math.floor(Math.random() * conditions.length)];
-            resolve({ city, temperature, condition });
-          } else {
-            reject(`Failed to fetch weather for ${city}`);
-          }
-        }, delay);
-      });
-    }
+<div id="loading">Loading prices...</div>
 
-    // Sequential async calls (one after another)
-    async function getWeatherSequential(cities) {
-      logMessage('--- Sequential Fetch ---');
-      for (const city of cities) {
-        try {
-          const data = await fetchWeather(city);
-          logMessage(`${data.city}: ${data.temperature}°C, ${data.condition}`, 'success');
-        } catch (error) {
-          logMessage(error, 'error');
-        }
+<div id="prices"></div>
+
+<script>
+  const pricesDiv = document.getElementById('prices');
+  const loadingDiv = document.getElementById('loading');
+  const startBtn = document.getElementById('start-btn');
+  const stopBtn = document.getElementById('stop-btn');
+
+  let intervalId = null;
+  let loadingTimeout = null;
+
+  // Crypto IDs we want to track (CoinGecko IDs)
+  const cryptos = ['bitcoin', 'ethereum', 'dogecoin'];
+
+  // Function to fetch prices from CoinGecko API
+  async function fetchPrices() {
+    // Show loading message if fetch takes longer than 5 seconds
+    loadingTimeout = setTimeout(() => {
+      loadingDiv.style.display = 'block';
+    }, 5000);
+
+    try {
+      const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${cryptos.join(',')}&vs_currencies=usd`);
+
+      clearTimeout(loadingTimeout);
+      loadingDiv.style.display = 'none';
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch prices');
       }
-    }
 
-    // Parallel async calls (all at once)
-    async function getWeatherParallel(cities) {
-      logMessage('--- Parallel Fetch ---');
-      const promises = cities.map(city => fetchWeather(city));
+      const data = await response.json();
 
-      const results = await Promise.allSettled(promises);
-      results.forEach((result, index) => {
-        const city = cities[index];
-        if (result.status === 'fulfilled') {
-          const data = result.value;
-          logMessage(`${data.city}: ${data.temperature}°C, ${data.condition}`, 'success');
+      // Clear previous prices
+      pricesDiv.innerHTML = '';
+
+      cryptos.forEach(crypto => {
+        const price = data[crypto]?.usd;
+
+        const priceDiv = document.createElement('div');
+        priceDiv.className = 'crypto';
+
+        if (price !== undefined) {
+          priceDiv.textContent = `${crypto.charAt(0).toUpperCase() + crypto.slice(1)}: $${price.toLocaleString()}`;
         } else {
-          logMessage(`Error: ${result.reason}`, 'error');
+          priceDiv.textContent = `${crypto.charAt(0).toUpperCase() + crypto.slice(1)}: Price not available`;
         }
+
+        pricesDiv.appendChild(priceDiv);
       });
+    } catch (error) {
+      clearTimeout(loadingTimeout);
+      loadingDiv.style.display = 'none';
+      pricesDiv.innerHTML = `<div style="color:red;">Error: ${error.message}</div>`;
     }
+  }
 
-    // Main runner
-    async function runApp() {
-      const cities = ['New York', 'London', 'Tokyo', 'Paris', 'Sydney'];
-      await getWeatherSequential(cities);     // Sequential fetch
-      await getWeatherParallel(cities);       // Parallel fetch
-    }
+  // Start periodic price updates
+  function startUpdates() {
+    if (intervalId) return; // Already running
+    fetchPrices(); // Initial fetch immediately
+    intervalId = setInterval(fetchPrices, 10000); // Refresh every 10 seconds
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
+  }
 
-    // Start the simulation on page load
-    runApp();
-  </script>
+  // Stop periodic price updates
+  function stopUpdates() {
+    clearInterval(intervalId);
+    intervalId = null;
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+  }
+
+  // Button event listeners
+  startBtn.addEventListener('click', startUpdates);
+  stopBtn.addEventListener('click', stopUpdates);
+
+  // Optionally start updates automatically on page load:
+  // startUpdates();
+</script>
 
 </body>
 </html>
