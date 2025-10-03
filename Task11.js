@@ -1,79 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Catalog</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .product {
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .product h2 {
-            margin: 0;
-            font-size: 1.5em;
-        }
-        .product p {
-            margin: 5px 0;
-        }
-        .error {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Product Catalog Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+    }
+    #productContainer {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .product-card {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .product-card h2 {
+      margin: 0 0 10px;
+      font-size: 1.2em;
+      color: #333;
+    }
+    .product-card p {
+      margin: 5px 0;
+      color: #555;
+    }
+    .price {
+      font-weight: bold;
+      color: green;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
+  <h1>🛒 Product Catalog</h1>
+  <div id="productContainer"></div>
+  <div id="errorMsg" class="error"></div>
 
-    <h1>Product Catalog</h1>
-
-    <div id="error-message" class="error" style="display: none;"></div>
-
-    <div id="product-list"></div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const productListContainer = document.getElementById('product-list');
-            const errorMessageContainer = document.getElementById('error-message');
-
-            async function fetchProducts() {
-                try {
-                    const response = await fetch('products.json'); 
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch products');
-                    }
-                    const products = await response.json();            
-                    errorMessageContainer.style.display = 'none';      
-                    displayProducts(products);
-
-                } catch (error) {
-                    // Handle errors (fetching or parsing issues)
-                    console.error("Error:", error.message);
-                    errorMessageContainer.textContent = "Failed to load products. Please try again later.";
-                    errorMessageContainer.style.display = 'block';
-                }
-            }
-
-            function displayProducts(products) {
-                productListContainer.innerHTML = '';
-                products.forEach(product => {
-                    const productDiv = document.createElement('div');
-                    productDiv.classList.add('product');
-
-                    const productName = document.createElement('h2');
-                    productName.textContent = product.name;
-
-                    const productPrice = document.createElement('p');
-                    productPrice.textContent = `Price: $${product.price.toFixed(2)}`;
-
-                    const productDescription = document.createElement('p');
-                    productDescription.textContent = product.description;
-                    productDiv.appendChild(productName);
+  <!-- External JS -->
+  <script src="script.js"></script>
+</body>
+</html>                    productDiv.appendChild(productName);
                     productDiv.appendChild(productPrice);
                     productDiv.appendChild(productDescription);
                     productListContainer.appendChild(productDiv);
